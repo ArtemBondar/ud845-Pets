@@ -1,5 +1,6 @@
 package com.example.android.pets;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,10 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.android.pets.data.PetContract;
 import com.example.android.pets.data.PetContract.PetEntry;
 import com.example.android.pets.data.PetDbHelper;
-import com.example.android.pets.data.PetProvider;
 
 /**
  * Displays list of pets that were entered and stored in the app.
@@ -110,24 +109,17 @@ public class CatalogActivity extends AppCompatActivity {
     }
 
     private void insertPet() {
-        // Gets the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(PetEntry.COLUMN_PET_NAME, "Toto");
         values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
         values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
         values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
 
-        // Insert a new row for Toto in the database, returning the ID of that new row.
-        // The first argument for db.insert() is the pets table name.
-        // The second argument provides the name of a column in which the framework
-        // can insert NULL in the event that the ContentValues is empty (if
-        // this is set to "null", then the framework will not insert a row when
-        // there are no values).
-        // The third argument is the ContentValues object containing the info for Toto.
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
-        Log.v(TAG, "New Row ID: " + newRowId);
+        // Insert a new row for Toto in the database, returning the Uri of that new row.
+        // The first argument for insert() is the pets content uri.
+        // The second argument is the ContentValues object containing the info for Toto.
+        Uri newRowUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+        Log.v(TAG, "New Row ID: " + ContentUris.parseId(newRowUri));
     }
 
     private void deletePets() {
