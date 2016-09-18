@@ -5,14 +5,18 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+
 /**
  * {@link ContentProvider} for Pets app.
  */
 public class PetProvider extends ContentProvider {
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String TAG = PetProvider.class.getSimpleName();
 
     private PetDbHelper petDbHelper;
+
     /**
      * Initialize the provider and the database helper object.
      */
@@ -21,6 +25,7 @@ public class PetProvider extends ContentProvider {
         petDbHelper = new PetDbHelper(getContext());
         return true;
     }
+
     /**
      * Perform the query for the given URI. Use the given projection, selection, selection arguments, and sort order.
      */
@@ -29,6 +34,7 @@ public class PetProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         return null;
     }
+
     /**
      * Returns the MIME type of data for the content URI.
      */
@@ -37,6 +43,7 @@ public class PetProvider extends ContentProvider {
     public String getType(Uri uri) {
         return null;
     }
+
     /**
      * Insert new data into the provider with the given ContentValues.
      */
@@ -45,6 +52,7 @@ public class PetProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues contentValues) {
         return null;
     }
+
     /**
      * Delete the data at the given selection and selection arguments.
      */
@@ -52,6 +60,7 @@ public class PetProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         return 0;
     }
+
     /**
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
      */
