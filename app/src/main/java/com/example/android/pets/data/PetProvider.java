@@ -11,6 +11,7 @@ import android.net.Uri;
 import com.example.android.pets.data.PetContract.PetEntry;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * {@link ContentProvider} for Pets app.
@@ -90,10 +91,38 @@ public class PetProvider extends ContentProvider {
     }
 
     private Uri insertPet(Uri uri, ContentValues contentValues) {
+        // Check that the name is not null
+        String name = contentValues.getAsString(PetEntry.COLUMN_PET_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Pet requires a name");
+        }
+
+        // Check that the gender is valid
+        Integer gender = contentValues.getAsInteger(PetEntry.COLUMN_PET_GENDER);
+        if (gender == null || !PetEntry.isValidGender(gender)) {
+            throw new IllegalArgumentException("Pet requires valid gender");
+        }
+
+        // If the weight is provided, check that it's greater than or equal to 0 kg
+        Integer weight = contentValues.getAsInteger(PetEntry.COLUMN_PET_WEIGHT);
+        if (weight == null || weight < 0) {
+            throw new IllegalArgumentException("Pet requires valid weight");
+        }
+
+        // No need to check the breed, any value is valid (including null).
+
         SQLiteDatabase sqLiteDatabase = petDbHelper.getReadableDatabase();
+
         long id = sqLiteDatabase.insert(PetEntry.TABLE_NAME, null, contentValues);
+
+        if (id == -1) {
+            Log.e(TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
         return ContentUris.withAppendedId(uri, id);
     }
+
 
     /**
      * Delete the data at the given selection and selection arguments.
