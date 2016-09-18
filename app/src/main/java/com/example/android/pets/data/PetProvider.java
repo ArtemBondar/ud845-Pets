@@ -79,7 +79,7 @@ public class PetProvider extends ContentProvider {
             case PET_ID:
                 return PetEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+                throw new IllegalArgumentException("Unknown URI " + uri + " with match " + match);
         }
     }
 
