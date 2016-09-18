@@ -144,7 +144,7 @@ public class EditorActivity extends AppCompatActivity {
         values.put(PetEntry.COLUMN_PET_BREED, breed);
         values.put(PetEntry.COLUMN_PET_GENDER, mGender);
         values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
-        
+
         Uri newRowUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
         Log.v(TAG, "New Row Uri: " + newRowUri);
 
